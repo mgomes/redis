@@ -27,8 +27,10 @@ module Redis
     # needed.
     def initialize(uri : URI = URI.parse("redis:///"))
       max_idle_pool_size = uri.query_params.fetch("max_idle_pool_size", "25").to_i
+      max_pool_size = uri.query_params.fetch("max_pool_size", "25").to_i
       @pool = DB::Pool.new(
         max_idle_pool_size: max_idle_pool_size,
+        max_pool_size: max_pool_size
       ) { Connection.new(uri) }
     end
 
